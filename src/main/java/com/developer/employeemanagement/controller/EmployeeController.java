@@ -5,7 +5,10 @@ import com.developer.employeemanagement.dto.request.EmployeeRequest;
 import com.developer.employeemanagement.dto.response.EmployeeResponse;
 import com.developer.employeemanagement.entity.EmployeeEntity;
 import com.developer.employeemanagement.service.EmployeeService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +25,7 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeEntity> findAllEmployee() {
+
         return employeeService.findAllEmployee();
     }
 
@@ -57,4 +61,18 @@ public class EmployeeController {
         return employeeService.updateEmployee(employeeRequest, id);
     }
 
+    @GetMapping("/all")
+    public String listEmployees(Model model) {
+        List<EmployeeEntity> employees = employeeService.findAllEmployee();
+        model.addAttribute("employees", employees); // Add employees to the model
+        return "employees" ; // Return the name of your JSP file
+    }
+
+
+    @GetMapping("/home")
+    public String home(Model model) {
+        model.addAttribute("message", "Welcome to the Employee Management System!");
+        return "home"; // This will render home.jsp
+    }
 }
+
